@@ -6,11 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ActiveDescendantKeyManager} from '@angular/cdk/a11y';
-import {Directionality} from '@angular/cdk/bidi';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {SelectionModel} from '@angular/cdk/collections';
-import {DOWN_ARROW, END, ENTER, HOME, SPACE, UP_ARROW} from '@angular/cdk/keycodes';
+import { ActiveDescendantKeyManager } from '@angular/cdk/a11y';
+import { Directionality } from '@angular/cdk/bidi';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { SelectionModel } from '@angular/cdk/collections';
+import { DOWN_ARROW, END, ENTER, HOME, SPACE, UP_ARROW } from '@angular/cdk/keycodes';
 import {
   ConnectedOverlayDirective,
   Overlay,
@@ -18,7 +18,7 @@ import {
   ScrollStrategy,
   ViewportRuler,
 } from '@angular/cdk/overlay';
-import {filter, first, RxChain, startWith, takeUntil} from '@angular/cdk/rxjs';
+import { filter, first, RxChain, startWith, takeUntil } from '@angular/cdk/rxjs';
 import {
   AfterContentInit,
   Attribute,
@@ -66,11 +66,11 @@ import {
   mixinTabIndex,
   MAT_OPTION_PARENT_COMPONENT,
 } from '@angular/material/core';
-import {MatFormField, MatFormFieldControl} from '@angular/material/form-field';
-import {Observable} from 'rxjs/Observable';
-import {merge} from 'rxjs/observable/merge';
-import {Subject} from 'rxjs/Subject';
-import {fadeInContent, transformPanel} from './select-animations';
+import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
+import { Observable } from 'rxjs/Observable';
+import { merge } from 'rxjs/observable/merge';
+import { Subject } from 'rxjs/Subject';
+import { fadeInContent, transformPanel } from './select-animations';
 import {
   getMatSelectDynamicMultipleError,
   getMatSelectNonArrayValueError,
@@ -116,11 +116,11 @@ export const SELECT_PANEL_VIEWPORT_PADDING = 8;
 
 /** Injection token that determines the scroll handling while a select is open. */
 export const MAT_SELECT_SCROLL_STRATEGY =
-    new InjectionToken<() => ScrollStrategy>('mat-select-scroll-strategy');
+  new InjectionToken<() => ScrollStrategy>('mat-select-scroll-strategy');
 
 /** @docs-private */
 export function MAT_SELECT_SCROLL_STRATEGY_PROVIDER_FACTORY(overlay: Overlay):
-    () => RepositionScrollStrategy {
+  () => RepositionScrollStrategy {
   return () => overlay.scrollStrategies.reposition();
 }
 
@@ -139,7 +139,7 @@ export class MatSelectChange {
 // Boilerplate for applying mixins to MatSelect.
 /** @docs-private */
 export class MatSelectBase {
-  constructor(public _renderer: Renderer2, public _elementRef: ElementRef) {}
+  constructor(public _renderer: Renderer2, public _elementRef: ElementRef) { }
 }
 export const _MatSelectMixinBase = mixinTabIndex(mixinDisabled(MatSelectBase));
 
@@ -150,7 +150,7 @@ export const _MatSelectMixinBase = mixinTabIndex(mixinDisabled(MatSelectBase));
 @Directive({
   selector: 'mat-select-trigger'
 })
-export class MatSelectTrigger {}
+export class MatSelectTrigger { }
 
 
 @Component({
@@ -189,13 +189,13 @@ export class MatSelectTrigger {}
     fadeInContent
   ],
   providers: [
-    {provide: MatFormFieldControl, useExisting: MatSelect},
-    {provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatSelect}
+    { provide: MatFormFieldControl, useExisting: MatSelect },
+    { provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatSelect }
   ],
 })
 export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, OnChanges,
-    OnDestroy, OnInit, DoCheck, ControlValueAccessor, CanDisable, HasTabIndex,
-    MatFormFieldControl<any> {
+  OnDestroy, OnInit, DoCheck, ControlValueAccessor, CanDisable, HasTabIndex,
+  MatFormFieldControl<any> {
   /** Whether or not the overlay panel is open. */
   private _panelOpen = false;
 
@@ -236,10 +236,10 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
   _keyManager: ActiveDescendantKeyManager<MatOption>;
 
   /** View -> model callback called when value changes */
-  _onChange: (value: any) => void = () => {};
+  _onChange: (value: any) => void = () => { };
 
   /** View -> model callback called when select has been touched */
-  _onTouched = () => {};
+  _onTouched = () => { };
 
   /** The IDs of child options to be passed to the aria-owns attribute. */
   _optionIds: string = '';
@@ -309,7 +309,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
   @ContentChildren(MatOptgroup) optionGroups: QueryList<MatOptgroup>;
 
   /** Classes to be passed to the select panel. Supports the same syntax as `ngClass`. */
-  @Input() panelClass: string|string[]|Set<string>|{[key: string]: any};
+  @Input() panelClass: string | string[] | Set<string> | { [key: string]: any };
 
   /** User-supplied override of the trigger element. */
   @ContentChild(MatSelectTrigger) customTrigger: MatSelectTrigger;
@@ -504,7 +504,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
     // Set the font size on the panel element once it exists.
     first.call(this._ngZone.onStable.asObservable()).subscribe(() => {
       if (this._triggerFontSize && this.overlayDir.overlayRef &&
-          this.overlayDir.overlayRef.overlayElement) {
+        this.overlayDir.overlayRef.overlayElement) {
         this.overlayDir.overlayRef.overlayElement.style.fontSize = `${this._triggerFontSize}px`;
       }
     });
@@ -624,7 +624,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
     if (keyCode === HOME || keyCode === END) {
       event.preventDefault();
       keyCode === HOME ? this._keyManager.setFirstItemActive() :
-                         this._keyManager.setLastItemActive();
+        this._keyManager.setLastItemActive();
     } else if ((keyCode === ENTER || keyCode === SPACE) && this._keyManager.activeItem) {
       event.preventDefault();
       this._keyManager.activeItem._selectViaInteraction();
@@ -746,7 +746,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
     const correspondingOption = this.options.find((option: MatOption) => {
       try {
         // Treat null as a special reset value.
-        return option.value != null && this._compareWith(option.value,  value);
+        return option.value != null && this._compareWith(option.value, value);
       } catch (error) {
         if (isDevMode()) {
           // Notify developers of errors in their comparator.
@@ -891,7 +891,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
     const itemHeight = this._getItemHeight();
     const activeOptionIndex = this._keyManager.activeItemIndex || 0;
     const labelCount = MatOption.countGroupLabelsBeforeOption(activeOptionIndex,
-        this.options, this.optionGroups);
+      this.options, this.optionGroups);
     const scrollOffset = (activeOptionIndex + labelCount) * itemHeight;
     const panelTop = this.panel.nativeElement.scrollTop;
 
@@ -899,7 +899,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
       this.panel.nativeElement.scrollTop = scrollOffset;
     } else if (scrollOffset + itemHeight > panelTop + SELECT_PANEL_MAX_HEIGHT) {
       this.panel.nativeElement.scrollTop =
-          Math.max(0, scrollOffset - SELECT_PANEL_MAX_HEIGHT + itemHeight);
+        Math.max(0, scrollOffset - SELECT_PANEL_MAX_HEIGHT + itemHeight);
     }
   }
 
@@ -927,10 +927,10 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
 
     // If no value is selected we open the popup to the first item.
     let selectedOptionOffset =
-        this.empty ? 0 : this._getOptionIndex(this._selectionModel.selected[0])!;
+      this.empty ? 0 : this._getOptionIndex(this._selectionModel.selected[0])!;
 
     selectedOptionOffset += MatOption.countGroupLabelsBeforeOption(selectedOptionOffset,
-        this.options, this.optionGroups);
+      this.options, this.optionGroups);
 
     // We must maintain a scroll buffer so the selected option will be scrolled to the
     // center of the overlay panel rather than the top.
@@ -949,7 +949,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
    * scroll position to the min or max scroll positions respectively.
    */
   _calculateOverlayScroll(selectedIndex: number, scrollBuffer: number,
-                          maxScroll: number): number {
+    maxScroll: number): number {
     const itemHeight = this._getItemHeight();
     const optionOffsetFromScrollTop = itemHeight * selectedIndex;
     const halfOptionHeight = itemHeight / 2;
@@ -990,7 +990,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
     const viewportRect = this._viewportRuler.getViewportRect();
     const isRtl = this._isRtl();
     const paddingWidth = this.multiple ? SELECT_MULTIPLE_PANEL_PADDING_X + SELECT_PANEL_PADDING_X :
-                                         SELECT_PANEL_PADDING_X * 2;
+      SELECT_PANEL_PADDING_X * 2;
     let offsetX: number;
 
     // Adjust the offset, depending on the option padding.
@@ -1009,7 +1009,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
     // Determine how much the select overflows on each side.
     const leftOverflow = 0 - (overlayRect.left + offsetX - (isRtl ? paddingWidth : 0));
     const rightOverflow = overlayRect.right + offsetX - viewportRect.width
-                          + (isRtl ? 0 : paddingWidth);
+      + (isRtl ? 0 : paddingWidth);
 
     // If the element overflows on either side, reduce the offset to allow it to fit.
     if (leftOverflow > 0) {
@@ -1030,7 +1030,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
    * selected option to be aligned over the trigger when the panel opens.
    */
   private _calculateOverlayOffsetY(selectedIndex: number, scrollBuffer: number,
-                                  maxScroll: number): number {
+    maxScroll: number): number {
     const itemHeight = this._getItemHeight();
     const optionHeightAdjustment = (itemHeight - this._triggerRect.height) / 2;
     const maxOptionsDisplayed = Math.floor(SELECT_PANEL_MAX_HEIGHT / itemHeight);
@@ -1045,7 +1045,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
       // The first item is partially out of the viewport. Therefore we need to calculate what
       // portion of it is shown in the viewport and account for it in our offset.
       let partialItemHeight =
-          itemHeight - (this._getItemCount() * itemHeight - SELECT_PANEL_MAX_HEIGHT) % itemHeight;
+        itemHeight - (this._getItemCount() * itemHeight - SELECT_PANEL_MAX_HEIGHT) % itemHeight;
 
       // Because the panel height is longer than the height of the options alone,
       // there is always extra padding at the top or bottom of the panel. When
@@ -1077,17 +1077,17 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
 
     const topSpaceAvailable = this._triggerRect.top - SELECT_PANEL_VIEWPORT_PADDING;
     const bottomSpaceAvailable =
-        viewportRect.height - this._triggerRect.bottom - SELECT_PANEL_VIEWPORT_PADDING;
+      viewportRect.height - this._triggerRect.bottom - SELECT_PANEL_VIEWPORT_PADDING;
 
     const panelHeightTop = Math.abs(this._offsetY);
     const totalPanelHeight =
-        Math.min(this._getItemCount() * itemHeight, SELECT_PANEL_MAX_HEIGHT);
+      Math.min(this._getItemCount() * itemHeight, SELECT_PANEL_MAX_HEIGHT);
     const panelHeightBottom = totalPanelHeight - panelHeightTop - this._triggerRect.height;
 
     if (panelHeightBottom > bottomSpaceAvailable) {
       this._adjustPanelUp(panelHeightBottom, bottomSpaceAvailable);
     } else if (panelHeightTop > topSpaceAvailable) {
-     this._adjustPanelDown(panelHeightTop, topSpaceAvailable, maxScroll);
+      this._adjustPanelDown(panelHeightTop, topSpaceAvailable, maxScroll);
     } else {
       this._transformOrigin = this._getOriginBasedOnOption();
     }
@@ -1116,7 +1116,7 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
 
   /** Adjusts the overlay panel down to fit in the viewport. */
   private _adjustPanelDown(panelHeightTop: number, topSpaceAvailable: number,
-                           maxScroll: number) {
+    maxScroll: number) {
     // Browsers ignore fractional scroll offsets, so we need to round.
     const distanceAboveViewport = Math.round(panelHeightTop - topSpaceAvailable);
 
